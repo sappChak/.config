@@ -1,0 +1,44 @@
+# .gitignore file for the configuration directory
+#
+# This file specifies intentionally untracked files that Git should ignore.
+# Files already tracked by Git are not affected.
+#
+# The general format is:
+#   - Lines starting with '#' are comments.
+#   - Lines starting with '!' negate the ignore pattern. 
+#     (i.e., they specify files that should be tracked)
+#   - '*' is a wildcard that matches any sequence of characters.
+#   - '/' at the beginning of a pattern specifies the pattern 
+#     is relative to the root directory.
+#   - '/' at the end of a pattern specifies a directory.
+#
+# The current configuration is:
+#   - Ignore everything by default
+#   - Exclude specific folders (zsh, tmux, vim, nvim, bash, kitty, i3, alacritty)
+#   - Exclude the .gitignore file itself
+#   - Ignore backup files and temporary files (such as vim swap files)
+#   - Ignore zsh compiled files and dump files
+#   - Ignore sensitive data files (replace with your actual filenames)
+
+/*
+!/zsh/.zshrc
+!/tmux/
+!/vim/
+!/nvim/
+!/bash/
+!/kitty/
+!/i3/
+!/alacritty/
+!.gitignore
+*~
+*.bak
+*.swp
+*.swo
+*.swn
+*.log
+*.zwc
+*.zcompdump
+/alacritty/themes
+/zsh/.zcompdump*
+private_key.pem
+config_with_passwords.ini

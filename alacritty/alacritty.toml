@@ -1,0 +1,76 @@
+import = [
+    "~/.config/alacritty/themes/themes/blood_moon.toml"
+]
+
+# [colors.bright]
+# black = "0x666666"
+# blue = "0x6699cc"
+# cyan = "0x66cccc"
+# green = "0xa7e22e"
+# magenta = "0xb399cc"
+# red = "0xf2777a"
+# white = "0xf2f0ec"
+# yellow = "0xffcc66"
+#
+# [colors.normal]
+# black = "0x1e1e1e"
+# blue = "0x7aa6da"
+# cyan = "0x70c0b1"
+# green = "0xb9ca4a"
+# magenta = "0xc397d8"
+# red = "0xd54e53"
+# white = "0xeeeeec"
+# yellow = "0xe7c547"
+#
+# [colors.primary]
+# background = "0x1e1e1e"
+# foreground = "0xeeeeec"
+
+[font]
+size = 16
+
+[font.bold]
+# # family = "JetBrainsMono Nerd Font Mono"
+family = "FiraCode Nerd Font"
+# family = "Hack"
+style = "Bold"
+#
+# [font.bold_italic]
+# # family = "JetBrainsMono Nerd Font"
+# family = "Hack"
+# style = "Bold Italic# Size of the font"
+#
+# [font.italic]
+# # family = "JetBrainsMono Nerd Font"
+# family = "Hack"
+# style = "Italic"
+#
+[font.normal]
+# family = "JetBrainsMono Nerd Font"
+# family = "Hack Nerd Font"
+family = "FiraCode Nerd Font"
+style = "Regular"
+
+[[keyboard.bindings]]
+chars = "\u0003"
+key = "C"
+mods = "Control | Shift"
+
+[[keyboard.bindings]]
+chars = "\u0016"
+key = "V"
+mods = "Control | Shift"
+
+[mouse]
+# allow_scroll_wheel = true
+
+[shell]
+program = "/usr/bin/zsh"
+
+[window.dimensions]
+columns = 240
+lines = 100
+
+[window]
+startup_mode = "Maximized"
+decorations = 'None'
