@@ -104,7 +104,7 @@ vim.opt.splitright = true
 vim.opt.lazyredraw = true
 
 -- Set maximum width of text to 80 characters
-vim.opt.textwidth = 120
+vim.opt.textwidth = 80
 
 -- Set offset_encoding to utf-8
 vim.opt.encoding = "utf-8"
