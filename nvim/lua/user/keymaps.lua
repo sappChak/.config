@@ -164,7 +164,7 @@ nnoremap("<leader>cc", ":cclose<cr>zz")
 nnoremap("<leader>=", "<C-w>=")
 
 -- Press leader f to format
-nnoremap("<leader>f", ":Format<cr>")
+nnoremap("<leader>fm", ":Format<cr>")
 
 -- Press leader rw to rotate open windows
 nnoremap("<leader>rw", ":RotateWindows<cr>", { desc = "[R]otate [W]indows" })
