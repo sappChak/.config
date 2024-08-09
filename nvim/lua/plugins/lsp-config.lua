@@ -4,77 +4,56 @@ return {
 		event = { "BufReadPost" },
 		cmd = { "LspInfo", "LspInstall", "LspUninstall", "Mason" },
 		dependencies = {
-			-- Plugin and UI to automatically install LSPs to stdpath
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-
 			"hrsh7th/cmp-nvim-lsp",
-			-- Install none-ls for diagnostics, code actions, and formatting
 			"nvimtools/none-ls.nvim",
-
-			-- Install neodev for better nvim configuration and plugin authoring via lsp configurations
 			"folke/neodev.nvim",
-
-			-- Progress/Status update for LSP
 			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
 		config = function()
 			local null_ls = require("null-ls")
-			local map_lsp_keybinds = require("user.keymaps")
-			.map_lsp_keybinds                            -- Has to load keymaps before pluginslsp
+			local lspconfig = require("lspconfig")
+			local mason = require("mason")
+			local mason_lspconfig = require("mason-lspconfig")
+			local neodev = require("neodev")
 
-			-- Use neodev to configure lua_ls in nvim directories - must load before lspconfig
-			require("neodev").setup()
+			-- Load custom keymaps
+			require("user.keymaps").map_lsp_keybinds()
 
-			-- Setup mason so it can manage 3rd party LSP servers
-			require("mason").setup({
-				ui = {
-					border = "rounded",
-				},
+			-- Setup neodev before lspconfig
+			neodev.setup()
+
+			-- Setup mason
+			mason.setup({
+				ui = { border = "rounded" },
 			})
 
-			-- Configure mason to auto install servers
-			require("mason-lspconfig").setup({
+			-- Auto install LSP servers
+			mason_lspconfig.setup({
 				automatic_installation = { exclude = { "gleam" } },
 			})
 
-			local messages_to_filter = {
-				"'_Assertion' is declared but never used.",
-				"'__Assertion' is declared but never used.",
-				"The signature '(data: string): string' of 'atob' is deprecated.",
-				"The signature '(data: string): string' of 'btoa' is deprecated.",
-			}
-
-			local function tsserver_on_publish_diagnostics_override(_, result, ctx, config)
-				local filtered_diagnostics = {}
-
-				for _, diagnostic in ipairs(result.diagnostics) do
-					local found = false
-					for _, message in ipairs(messages_to_filter) do
-						if diagnostic.message == message then
-							found = true
-							break
-						end
-					end
-					if not found then
-						table.insert(filtered_diagnostics, diagnostic)
-					end
-				end
+			-- Diagnostics filtering for tsserver
+			local function filter_tsserver_diagnostics(_, result, ctx, config)
+				local filtered_diagnostics = vim.tbl_filter(function(diagnostic)
+					local ignored_messages = {
+						"'_Assertion' is declared but never used.",
+						"'__Assertion' is declared but never used.",
+						"The signature '(data: string): string' of 'atob' is deprecated.",
+						"The signature '(data: string): string' of 'btoa' is deprecated.",
+					}
+					return not vim.tbl_contains(ignored_messages, diagnostic.message)
+				end, result.diagnostics)
 
 				result.diagnostics = filtered_diagnostics
-
 				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
 			end
 
-			-- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
+			-- LSP server configurations
 			local servers = {
 				bashls = {},
-				clangd = {
-					cmd = {
-						"clangd",
-						"--offset-encoding=utf-16",
-					},
-				},
+				clangd = { cmd = { "clangd", "--offset-encoding=utf-16" } },
 				jsonls = {},
 				lua_ls = {
 					settings = {
@@ -113,93 +92,91 @@ return {
 						},
 					},
 					handlers = {
-						["textDocument/publishDiagnostics"] = vim.lsp.with(
-							tsserver_on_publish_diagnostics_override,
-							{}
-						),
+						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
-				rust_analyzer = {
+				-- Omnisharp Configuration for C#
+				omnisharp = {
+					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
 					settings = {
-						cmd = {
-							"rustup",
-							"run",
-							"stable",
-							"rust_analyzer",
+						omnisharp = {
+							enableRoslynAnalyzers = true,
+							enableEditorConfigSupport = true,
+							organizeImportsOnFormat = true,
+							enableImportCompletion = true,
+							analyzeOpenDocumentsOnly = false,
+							filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
 						},
 					},
+					handlers = {
+						["textDocument/definition"] = require("omnisharp_extended").handler,
+					},
+					root_dir = lspconfig.util.root_pattern(".git", "*.sln"),
 				},
-				sqlls = {},
+				rust_analyzer = { cmd = { "rustup", "run", "stable", "rust_analyzer" } },
 				dockerls = {},
-				docker_compose_language_service = {
-					filetypes = { "yaml.docker-compose" },
-				},
+				docker_compose_language_service = { filetypes = { "yaml.docker-compose" } },
 			}
 
-			-- Default handlers for LSP
+			-- LSP handlers configuration
 			local default_handlers = {
 				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
-					{ border = "rounded" }),
-				["textDocument/publishDiagnostics"] = vim.lsp.with(
-				vim.lsp.diagnostic.on_publish_diagnostics, {
+				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+				["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 					virtual_text = true,
 					signs = true,
 					underline = false,
 				}),
 			}
 
-			-- nvim-cmp supports additional completion capabilities
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			local default_capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+			-- Setup capabilities with nvim-cmp
+			local capabilities =
+				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-			---@diagnostic disable-next-line: unused-local
-			local on_attach = function(_client, buffer_number)
-				-- Pass the current buffer to map lsp keybinds
-				map_lsp_keybinds(buffer_number)
+			-- Common on_attach function
+			local function on_attach(_, buffer_number)
+				-- Map LSP keybinds
+				require("user.keymaps").map_lsp_keybinds(buffer_number)
 
-				-- Create a command `:Format` local to the LSP buffer
-				vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
+				-- Create `:Format` command for formatting the current buffer
+				vim.api.nvim_buf_create_user_command(buffer_number, "Format", function()
 					vim.lsp.buf.format({
-						filter = function(format_client)
-							-- Use Prettier to format TS/JS if it's available
-							return format_client.name ~= "tsserver" or
-							not null_ls.is_registered("prettier")
+						filter = function(client)
+							return client.name ~= "tsserver" or not null_ls.is_registered("prettier")
 						end,
 					})
 				end, { desc = "LSP: Format current buffer with LSP" })
 			end
 
-			-- Iterate over our servers and set them up
+			-- Setup LSP servers
 			for name, config in pairs(servers) do
-				require("lspconfig")[name].setup({
-					capabilities = default_capabilities,
+				lspconfig[name].setup({
+					capabilities = capabilities,
 					filetypes = config.filetypes,
-					handlers = vim.tbl_deep_extend("force", {}, default_handlers,
-						config.handlers or {}),
+					handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
 					on_attach = on_attach,
 					settings = config.settings,
 				})
 			end
 
-			-- Congifure LSP linting, formatting, diagnostics, and code actions
-			local formatting = null_ls.builtins.formatting
-
+			-- Configure null-ls for linting, formatting, diagnostics, and code actions
 			null_ls.setup({
 				border = "rounded",
 				sources = {
-					formatting.prettierd,
-					formatting.stylua,
+					null_ls.builtins.formatting.prettierd,
+					null_ls.builtins.formatting.stylua,
+					null_ls.builtins.formatting.clang_format,
+					null_ls.builtins.formatting.csharpier,
 				},
 			})
 
-			require("lspconfig.ui.windows").default_options.border = "rounded"
-
+			-- Diagnostic UI configuration
 			vim.diagnostic.config({
-				float = {
-					border = "rounded",
-				},
+				float = { border = "rounded" },
 			})
+
+			-- Set default border for LSP windows
+			require("lspconfig.ui.windows").default_options.border = "rounded"
 		end,
 	},
 }
