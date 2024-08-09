@@ -27,7 +27,7 @@ import = [
 # foreground = "0xeeeeec"
 
 [font]
-size = 16
+size = 15
 
 [font.bold]
 # # family = "JetBrainsMono Nerd Font Mono"
@@ -71,6 +71,16 @@ program = "/usr/bin/zsh"
 columns = 240
 lines = 100
 
+# [window]
+# startup_mode = "Maximized"
+# decorations = 'None'
+
 [window]
+# Enable hardware acceleration
+decorations = "none"
+dynamic_title = false
 startup_mode = "Maximized"
-decorations = 'None'
+
+[debug]
+# Disable unused features
+log_level = "off"
