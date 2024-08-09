@@ -17,8 +17,9 @@ vim.g.maplocalleader = " "
 vim.opt.termguicolors = true
 
 -- Set color scheme to rose-pine OR vscode OR melange OR mellifluous
--- vim.g.colors_name = "rose-pine"
 vim.g.colors_name = "rose-pine"
+-- vim.g.colors_name = "vscode"
+-- vim.g.colors_name = "nightfox"
 
 -- Disable swap file
 vim.o.swapfile = false
@@ -30,7 +31,7 @@ vim.opt.laststatus = 2
 vim.opt_local.shiftwidth = 2
 
 -- Set command line height to 1
-vim.opt.cmdheight = 1
+-- vim.opt.cmdheight = 1
 
 -- Enable hidden buffers
 vim.opt.hidden = true
@@ -89,7 +90,7 @@ vim.o.smartcase = true
 vim.wo.signcolumn = "yes"
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 300
 
 -- Set timeout length
 vim.o.timeoutlen = 300
@@ -104,7 +105,4 @@ vim.opt.splitright = true
 vim.opt.lazyredraw = true
 
 -- Set maximum width of text to 80 characters
-vim.opt.textwidth = 80
-
--- Set offset_encoding to utf-8
-vim.opt.encoding = "utf-8"
+vim.opt.textwidth = 90
