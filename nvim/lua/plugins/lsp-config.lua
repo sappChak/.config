@@ -36,17 +36,15 @@ return {
 
 			-- Diagnostics filtering for tsserver
 			local function filter_tsserver_diagnostics(_, result, ctx, config)
-				local filtered_diagnostics = vim.tbl_filter(function(diagnostic)
-					local ignored_messages = {
-						"'_Assertion' is declared but never used.",
-						"'__Assertion' is declared but never used.",
-						"The signature '(data: string): string' of 'atob' is deprecated.",
-						"The signature '(data: string): string' of 'btoa' is deprecated.",
-					}
+				local ignored_messages = {
+					"'_Assertion' is declared but never used.",
+					"'__Assertion' is declared but never used.",
+					"The signature '(data: string): string' of 'atob' is deprecated.",
+					"The signature '(data: string): string' of 'btoa' is deprecated.",
+				}
+				result.diagnostics = vim.tbl_filter(function(diagnostic)
 					return not vim.tbl_contains(ignored_messages, diagnostic.message)
 				end, result.diagnostics)
-
-				result.diagnostics = filtered_diagnostics
 				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
 			end
 
@@ -95,23 +93,19 @@ return {
 						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
-				-- Omnisharp Configuration for C#
 				omnisharp = {
 					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
 					settings = {
-						omnisharp = {
+						RoslynExtensionsOptions = {
+							enableAnalyzersSupport = true,
+							enableCodeActionsSupport = true,
+							enableAnalyzersAutoUpdate = true,
 							enableRoslynAnalyzers = true,
-							enableEditorConfigSupport = true,
-							organizeImportsOnFormat = true,
-							enableImportCompletion = true,
-							analyzeOpenDocumentsOnly = false,
-							filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
+							enableDecompilationSupport = true,
 						},
+						filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
 					},
-					handlers = {
-						["textDocument/definition"] = require("omnisharp_extended").handler,
-					},
-					root_dir = lspconfig.util.root_pattern(".git", "*.sln"),
+					root_dir = lspconfig.util.root_pattern(".sln", ".csproj"),
 				},
 				rust_analyzer = { cmd = { "rustup", "run", "stable", "rust_analyzer" } },
 				dockerls = {},
