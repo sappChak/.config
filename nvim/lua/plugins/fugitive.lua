@@ -1,7 +1,7 @@
 return {
-  "tpope/vim-fugitive",
-  config = function ()
-    vim.cmd [[
+	"tpope/vim-fugitive",
+	config = function()
+		vim.cmd([[
       nnoremap <silent> <leader>gs :Git<CR>
       nnoremap <silent> <leader>gd :Gdiff<CR>
       nnoremap <silent> <leader>gc :Gcommit<CR>
@@ -28,6 +28,6 @@ return {
       nnoremap <silent> <leader>gE :Gedit<CR>
       nnoremap <silent> <leader>gM :Gmove<CR>
       nnoremap <silent> <leader>gS :Gstatus<CR>
-      nnoremap <silent> <leader>gX :Gx<CR>]]
-  end
+      nnoremap <silent> <leader>gX :Gx<CR>]])
+	end,
 }
