@@ -10,11 +10,11 @@ return {
 			-- "mtime",
 		},
 		float = {
-			padding = 1,
+			padding = 2,
 		},
 		view_options = {
 			-- Show files and directories that start with "."
-			show_hidden = false,
+			show_hidden = true,
 			is_always_hidden = function(name, _)
 				return name == ".. " or name == ".git"
 			end,
