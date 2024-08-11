@@ -53,7 +53,7 @@ return {
 				type = "codelldb",
 				request = "launch",
 				program = function() -- Ask the user what executable wants to debug
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug", "file")
 				end,
 				cwd = "${workspaceFolder}",
 				stopOnEntry = false,
@@ -109,12 +109,6 @@ return {
 		-- }
 
 		vim.keymap.set("n", "<leader>dc", "<cmd>lua require('dap').continue()<CR>")
-		-- vim.keymap.set("n", "<leader>db", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
-		-- vim.keymap.set("n", "<leader>dn", "<cmd>lua require('dap').step_over()<CR>")
-		-- vim.keymap.set("n", "<leader>di", "<cmd>lua require('dap').step_into()<CR>")
-		-- vim.keymap.set("n", "<leader>do", "<cmd>lua require('dap').step_out()<CR>")
-		-- vim.keymap.set("n", "<leader>dl", "<cmd>lua require('dap').repl.open()<CR>")
-		-- vim.keymap.set("n", "<leader>ds", "<cmd>lua require('dap').stop()<CR>")
 		-- Use F5 to start the debugger
 		vim.keymap.set("n", "<F5>", "<cmd>lua require('dap').continue()<CR>")
 		-- Use F10 to step over
