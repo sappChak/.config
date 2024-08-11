@@ -379,7 +379,7 @@ nnoremap("<leader>op", ":ObsidianPasteImage<CR>", { desc = "Paste image from cli
 nnoremap("<leader>x", ":Neotree toggle<CR>", { desc = "Toggle [N]eoTree", silent = true })
 
 -- Oil
-nnoremap("-", ":Oil<CR>", { desc = "Open [O]il" })
+nnoremap("-", ":Oil --float<CR>", { desc = "Open [O]il" })
 -- nnoremap("<leader>x", ":Oil<CR>", { desc = "Open [O]il" })
 
 -- Reenable default <space> functionality to prevent input delay
