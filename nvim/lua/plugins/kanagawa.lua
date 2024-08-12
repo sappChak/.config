@@ -9,7 +9,7 @@ return {
 			keywordStyle = { italic = true },
 			statementStyle = { bold = true },
 			typeStyle = {},
-			transparent = false, -- do not set background color
+			transparent = true, -- do not set background color
 			dimInactive = false, -- dim inactive window `:h hl-NormalNC`
 			terminalColors = true, -- define vim.g.terminal_color_{0,17}
 			colors = { -- add/modify theme and palette colors
@@ -17,7 +17,17 @@ return {
 				theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
 			},
 			overrides = function(colors) -- add/modify highlights
-				return {}
+				return {
+					SignColumn = { bg = "NONE" },
+					LineNr = { bg = "NONE" },
+					GitSignsAdd = { bg = "NONE" }, -- Git signs for added lines
+					GitSignsChange = { bg = "NONE" }, -- Git signs for changed lines
+					GitSignsDelete = { bg = "NONE" }, -- Git signs for deleted lines
+					DiagnosticSignWarn = { bg = "NONE" }, -- Warning signs
+					DiagnosticSignError = { bg = "NONE" }, -- Error signs
+					DiagnosticSignInfo = { bg = "NONE" }, -- Info signs
+					DiagnosticSignHint = { bg = "NONE" }, -- Hint signs
+				}
 			end,
 			theme = "wave", -- Load "wave" theme when 'background' option is not set
 			background = { -- map the value of 'background' option to a theme
