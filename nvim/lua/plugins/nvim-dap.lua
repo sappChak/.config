@@ -25,7 +25,7 @@ return {
 			type = "server",
 			port = "${port}",
 			executable = {
-				command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+				command = "codelldb",
 				args = { "--port", "${port}" },
 			},
 		}
@@ -52,21 +52,18 @@ return {
 				name = "Launch",
 				type = "codelldb",
 				request = "launch",
-				program = function() -- Ask the user what executable wants to debug
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug", "file")
+				program = function()
+					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
 				end,
 				cwd = "${workspaceFolder}",
 				stopOnEntry = false,
 				args = {},
-				initCommands = function() -- add rust types support (optional)
-					-- Find out where to look for the pretty printer Python module
+				initCommands = function()
 					local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
-
 					local script_import = 'command script import "'
 						.. rustc_sysroot
 						.. '/lib/rustlib/etc/lldb_lookup.py"'
 					local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
-
 					local commands = {}
 					local file = io.open(commands_file, "r")
 					if file then
@@ -76,12 +73,10 @@ return {
 						file:close()
 					end
 					table.insert(commands, 1, script_import)
-
 					return commands
 				end,
 			},
-		}
-		-- dap.adapters["pwa-node"] = {
+		} -- dap.adapters["pwa-node"] = {
 		-- 	type = "server",
 		-- 	host = "127.0.0.1",
 		-- 	port = 8123,
@@ -118,5 +113,6 @@ return {
 		vim.keymap.set("n", "<F9>", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
 		vim.keymap.set("n", "<leader>dr", "<cmd>lua require('dap').repl.toggle()<CR>")
 		vim.keymap.set("n", "<F2>", "<cmd>lua require('dap').close(); require('dapui').close()<CR>")
+		-- vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
 	end,
 }
