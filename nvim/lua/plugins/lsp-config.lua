@@ -93,21 +93,51 @@ return {
 						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
-				omnisharp = {
-					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+				-- omnisharp = {
+				-- 	cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+				-- 	settings = {
+				-- 		RoslynExtensionsOptions = {
+				-- 			enableAnalyzersSupport = true,
+				-- 			enableCodeActionsSupport = true,
+				-- 			enableAnalyzersAutoUpdate = true,
+				-- 			enableRoslynAnalyzers = true,
+				-- 			enableDecompilationSupport = true,
+				-- 		},
+				-- 		filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
+				-- 	},
+				-- 	root_dir = lspconfig.util.root_pattern(".sln", ".csproj"),
+				-- 	handlers = {
+				-- 		["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+				-- 		["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+				-- 		["textDocument/references"] = require("omnisharp_extended").references_handler,
+				-- 		["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
+				-- 	},
+				-- },
+				rust_analyzer = {
 					settings = {
-						RoslynExtensionsOptions = {
-							enableAnalyzersSupport = true,
-							enableCodeActionsSupport = true,
-							enableAnalyzersAutoUpdate = true,
-							enableRoslynAnalyzers = true,
-							enableDecompilationSupport = true,
+						["rust-analyzer"] = {
+							checkOnSave = {
+								command = "clippy",
+							},
+							procMacro = {
+								enable = true,
+							},
+							cargo = {
+								allFeatures = true,
+							},
+							imports = {
+								group = {
+									enable = false,
+								},
+							},
+							completion = {
+								postfix = {
+									enable = false,
+								},
+							},
 						},
-						filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
 					},
-					root_dir = lspconfig.util.root_pattern(".sln", ".csproj"),
 				},
-				rust_analyzer = { cmd = { "rustup", "run", "stable", "rust_analyzer" } },
 				dockerls = {},
 				docker_compose_language_service = { filetypes = { "yaml.docker-compose" } },
 			}
