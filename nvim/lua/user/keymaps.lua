@@ -305,8 +305,7 @@ M.map_lsp_keybinds = function(buffer_number)
 
 	-- See `:help K` for why this keymap
 	nnoremap("K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation", buffer = buffer_number })
-	nnoremap("<leader>k", vim.lsp.buf.signature_help,
-		{ desc = "LSP: Signature Documentation", buffer = buffer_number })
+	nnoremap("<leader>k", vim.lsp.buf.signature_help, { desc = "LSP: Signature Documentation", buffer = buffer_number })
 	inoremap("<C-k>", vim.lsp.buf.signature_help, { desc = "LSP: Signature Documentation", buffer = buffer_number })
 
 	-- Lesser used LSP functionality
@@ -326,9 +325,6 @@ end, { desc = "[O]pen [C]opilot panel" })
 -- nnoremap("zR", require("ufo").openAllFolds)
 -- nnoremap("zM", require("ufo").closeAllFolds)
 --
--- Insert --
--- Map jj to <esc>
-inoremap("jj", "<esc>")
 
 -- Visual --
 -- Disable Space bar since it'll be used as the leader key
@@ -356,6 +352,7 @@ xnoremap(">>", function()
 	vim.cmd("normal! gv")
 end)
 
+-- Insert --
 -- Terminal --
 -- Enter normal mode while in a terminal
 tnoremap("<esc>", [[<C-\><C-n>]])
@@ -371,16 +368,16 @@ tnoremap("<C-l>", [[<Cmd>wincmd l<CR>]])
 -- Obsidian
 nnoremap("<leader>o", ":Obsidian<CR>", { desc = "Open Obsidian" })
 nnoremap("<leader>on", ":ObsidianNew<CR>", { desc = "Open new note" })
-nnoremap("<leader>ot", ":ObsidianToggle<CR>", { desc = "Toggle Obsidian" })
 nnoremap("<leader>oc", ":ObsidianClose<CR>", { desc = "Close Obsidian" })
 nnoremap("<leader>op", ":ObsidianPasteImage<CR>", { desc = "Paste image from clipboard" })
+nnoremap("<leader>ot", ":ObsidianTemplate<CR>", { desc = "Insert template" })
 
 -- Neotree
-nnoremap("<leader>x", ":Neotree toggle<CR>", { desc = "Toggle [N]eoTree", silent = true })
+-- nnoremap("<leader>x", ":Neotree toggle<CR>", { desc = "Toggle [N]eoTree", silent = true })
 
 -- Oil
 nnoremap("-", ":Oil --float<CR>", { desc = "Open [O]il" })
--- nnoremap("<leader>x", ":Oil<CR>", { desc = "Open [O]il" })
+nnoremap("<leader>x", ":Oil<CR>", { desc = "Open [O]il" })
 
 -- Reenable default <space> functionality to prevent input delay
 tnoremap("<space>", "<space>")
