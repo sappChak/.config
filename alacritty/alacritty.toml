@@ -1,54 +1,31 @@
 import = [
-    "~/.config/alacritty/themes/themes/blood_moon.toml"
+    "~/.config/alacritty/themes/themes/dracula_plus.toml"
 ]
 
-# [colors.bright]
-# black = "0x666666"
-# blue = "0x6699cc"
-# cyan = "0x66cccc"
-# green = "0xa7e22e"
-# magenta = "0xb399cc"
-# red = "0xf2777a"
-# white = "0xf2f0ec"
-# yellow = "0xffcc66"
-#
-# [colors.normal]
-# black = "0x1e1e1e"
-# blue = "0x7aa6da"
-# cyan = "0x70c0b1"
-# green = "0xb9ca4a"
-# magenta = "0xc397d8"
-# red = "0xd54e53"
-# white = "0xeeeeec"
-# yellow = "0xe7c547"
-#
-# [colors.primary]
-# background = "0x1e1e1e"
-# foreground = "0xeeeeec"
+# Bright colors
+[colors.bright]
+black   = '0x4d4d4d'
+red     = '0xff6c6b'
+green   = '0x98be65'
+yellow  = '0xecbe7b'
+blue    = '0x51afef'
+magenta = '0xc678dd'
+cyan    = '0x46d9ff'
+white   = '0xffffff'
+
+[colors.cursor]
+text = '0x000000'
+cursor = '0xffffff'
 
 [font]
 size = 15
 
-[font.bold]
-# # family = "JetBrainsMono Nerd Font Mono"
-family = "FiraCode Nerd Font"
-# family = "Hack"
-style = "Bold"
-#
-# [font.bold_italic]
-# # family = "JetBrainsMono Nerd Font"
-# family = "Hack"
-# style = "Bold Italic# Size of the font"
-#
-# [font.italic]
-# # family = "JetBrainsMono Nerd Font"
-# family = "Hack"
-# style = "Italic"
-#
 [font.normal]
 # family = "JetBrainsMono Nerd Font"
+# # family = "MonoLisa Nerd Font Mono"
 # family = "Hack Nerd Font"
-family = "FiraCode Nerd Font"
+# family = "FiraCode Nerd Font"
+family = "Monospace"
 style = "Regular"
 
 [[keyboard.bindings]]
@@ -61,26 +38,14 @@ chars = "\u0016"
 key = "V"
 mods = "Control | Shift"
 
-[mouse]
-# allow_scroll_wheel = true
-
 [shell]
 program = "/usr/bin/zsh"
 
-[window.dimensions]
-columns = 240
-lines = 100
-
-# [window]
-# startup_mode = "Maximized"
-# decorations = 'None'
-
 [window]
-# Enable hardware acceleration
+startup_mode = "Fullscreen"
 decorations = "none"
 dynamic_title = false
-startup_mode = "Maximized"
+# opacity = 0.9
 
 [debug]
-# Disable unused features
 log_level = "off"
