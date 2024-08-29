@@ -145,6 +145,12 @@ nnoremap("[w", function()
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
+-- Clear diagnostics for the current buffer
+nnoremap("<leader>cd", ":lua vim.diagnostic.reset()<CR>", { noremap = true, silent = true })
+
+-- Clear diagnostics for all buffers
+nnoremap("<leader>ca", ":lua vim.diagnostic.reset(nil, 0)<CR>", { noremap = true, silent = true })
+
 -- Place all dignostics into a qflist
 nnoremap("<leader>ld", vim.diagnostic.setqflist, { desc = "Quickfix [L]ist [D]iagnostics" })
 
