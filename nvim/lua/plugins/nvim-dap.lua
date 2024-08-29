@@ -53,7 +53,16 @@ return {
 				type = "codelldb",
 				request = "launch",
 				program = function()
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+					-- Get the project metadata using 'cargo metadata'
+					local cargo_metadata = vim.fn.system("cargo metadata --no-deps --format-version 1")
+					local metadata = vim.fn.json_decode(cargo_metadata)
+					-- Find the target directory
+					local target_dir = metadata.target_directory
+					-- Get the package name (assuming only one package, otherwise you may need to adjust this)
+					local package_name = metadata.packages[1].name
+					-- Construct the path to the executable
+					local executable_path = target_dir .. "/debug/" .. package_name
+					return executable_path
 				end,
 				cwd = "${workspaceFolder}",
 				stopOnEntry = false,
@@ -76,33 +85,7 @@ return {
 					return commands
 				end,
 			},
-		} -- dap.adapters["pwa-node"] = {
-		-- 	type = "server",
-		-- 	host = "127.0.0.1",
-		-- 	port = 8123,
-		-- 	executable = {
-		-- 		command = "js-debug-adapter",
-		-- 	},
-		-- }
-		-- dap.configurations.typescript = {
-		-- 	{
-		-- 		type = "pwa-node",
-		-- 		request = "launch",
-		-- 		name = "Launch file",
-		-- 		program = "${file}",
-		-- 		cwd = "${workspaceFolder}",
-		-- 		runtimeExecutable = "node",
-		-- 	},
-		-- 	{
-		-- 		type = "pwa-node",
-		-- 		request = "attach",
-		-- 		name = "Attach",
-		-- 		processId = require("dap.utils").pick_process,
-		-- 		cwd = vim.fn.getcwd(),
-		-- 		sourceMaps = true,
-		-- 	},
-		-- }
-
+		}
 		vim.keymap.set("n", "<leader>dc", "<cmd>lua require('dap').continue()<CR>")
 		-- Use F5 to start the debugger
 		vim.keymap.set("n", "<F5>", "<cmd>lua require('dap').continue()<CR>")
