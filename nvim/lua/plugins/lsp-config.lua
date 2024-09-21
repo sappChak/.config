@@ -12,6 +12,7 @@ return {
 			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
 		config = function()
+			require("java").setup()
 			local null_ls = require("null-ls")
 			local lspconfig = require("lspconfig")
 			local mason = require("mason")
@@ -25,14 +26,10 @@ return {
 			neodev.setup()
 
 			-- Setup mason
-			mason.setup({
-				ui = { border = "rounded" },
-			})
+			mason.setup({ ui = { border = "rounded" } })
 
 			-- Auto install LSP servers
-			mason_lspconfig.setup({
-				automatic_installation = { exclude = { "gleam" } },
-			})
+			mason_lspconfig.setup({ automatic_installation = { exclude = { "gleam" } } })
 
 			-- Diagnostics filtering for tsserver
 			local function filter_tsserver_diagnostics(_, result, ctx, config)
@@ -61,7 +58,7 @@ return {
 						},
 					},
 				},
-				tsserver = {
+				ts_ls = {
 					settings = {
 						maxTsServerMemory = 12288,
 						typescript = {
@@ -93,45 +90,14 @@ return {
 						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
-				-- omnisharp = {
-				-- 	cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-				-- 	settings = {
-				-- 		RoslynExtensionsOptions = {
-				-- 			enableAnalyzersSupport = true,
-				-- 			enableCodeActionsSupport = true,
-				-- 			enableAnalyzersAutoUpdate = true,
-				-- 			enableRoslynAnalyzers = true,
-				-- 			enableDecompilationSupport = true,
-				-- 		},
-				-- 		filetypes = { "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets" },
-				-- 	},
-				-- 	root_dir = lspconfig.util.root_pattern(".sln", ".csproj"),
-				-- 	handlers = {
-				-- 		["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-				-- 		["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-				-- 		["textDocument/references"] = require("omnisharp_extended").references_handler,
-				-- 		["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-				-- 	},
-				-- },
+				jdtls = {},
 				rust_analyzer = {
 					settings = {
 						["rust-analyzer"] = {
-							procMacro = {
-								enable = true,
-							},
-							cargo = {
-								allFeatures = true,
-							},
-							imports = {
-								group = {
-									enable = false,
-								},
-							},
-							completion = {
-								postfix = {
-									enable = false,
-								},
-							},
+							procMacro = { enable = true },
+							cargo = { allFeatures = true },
+							imports = { group = { enable = false } },
+							completion = { postfix = { enable = false } },
 						},
 					},
 				},
@@ -163,22 +129,28 @@ return {
 				vim.api.nvim_buf_create_user_command(buffer_number, "Format", function()
 					vim.lsp.buf.format({
 						filter = function(client)
-							return client.name ~= "tsserver" or not null_ls.is_registered("prettier")
+							return client.name ~= "ts_ls" or not null_ls.is_registered("prettier")
 						end,
 					})
 				end, { desc = "LSP: Format current buffer with LSP" })
 			end
 
 			-- Setup LSP servers
-			for name, config in pairs(servers) do
-				lspconfig[name].setup({
-					capabilities = capabilities,
-					filetypes = config.filetypes,
-					handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
-					on_attach = on_attach,
-					settings = config.settings,
-				})
+			local function setup_servers()
+				for name, config in pairs(servers) do
+					lspconfig[name].setup({
+						capabilities = capabilities,
+						filetypes = config.filetypes,
+						handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
+						on_attach = on_attach,
+						settings = config.settings,
+					})
+				end
 			end
+
+			setup_servers()
+
+			-- require("lspconfig").jdtls.setup({})
 
 			-- Configure null-ls for linting, formatting, diagnostics, and code actions
 			null_ls.setup({
@@ -192,9 +164,7 @@ return {
 			})
 
 			-- Diagnostic UI configuration
-			vim.diagnostic.config({
-				float = { border = "rounded" },
-			})
+			vim.diagnostic.config({ float = { border = "rounded" } })
 
 			-- Set default border for LSP windows
 			require("lspconfig.ui.windows").default_options.border = "rounded"
