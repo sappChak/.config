@@ -379,7 +379,7 @@ nnoremap("<leader>op", ":ObsidianPasteImage<CR>", { desc = "Paste image from cli
 nnoremap("<leader>ot", ":ObsidianTemplate<CR>", { desc = "Insert template" })
 
 -- Neotree
--- nnoremap("<leader>x", ":Neotree toggle<CR>", { desc = "Toggle [N]eoTree", silent = true })
+nnoremap("<leader>e", ":Neotree toggle<CR>", { desc = "Toggle [N]eoTree", silent = true })
 
 -- Oil
 nnoremap("-", ":Oil --float<CR>", { desc = "Open [O]il" })
