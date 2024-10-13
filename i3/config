@@ -21,16 +21,18 @@ bindsym XF86MonBrightnessDown exec brightnessctl -c backlight set 5%-
 set $mod Mod1
 
 # Font for window titles and bar
-font pango:JetBrainsMono Nerd Font 10
+font pango:JetBrainsMono Nerd Font 9
 
 # Application shortcuts
 bindsym $mod+q kill
 bindsym $mod+Shift+W exec firefox
 
-# Volume controls
-bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
-bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
-bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+# Volume up
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 5%+
+# Volume down
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 5%-
+# Mute/Unmute
+bindsym XF86AudioMute exec --no-startup-id amixer -q sset Master toggle
 
 # Screenshots
 bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
