@@ -53,39 +53,30 @@ return {
 				type = "codelldb",
 				request = "launch",
 				program = function()
-					-- Get the project metadata using 'cargo metadata'
-					local cargo_metadata = vim.fn.system("cargo metadata --no-deps --format-version 1")
-					local metadata = vim.fn.json_decode(cargo_metadata)
-					-- Find the target directory
-					local target_dir = metadata.target_directory
-					-- Get the package name (assuming only one package, otherwise you may need to adjust this)
-					local package_name = metadata.packages[1].name
-					-- Construct the path to the executable
-					local executable_path = target_dir .. "/debug/" .. package_name
+					-- Prompt the user to input the path to the executable with default path set to target/debug
+					local default_path = vim.fn.getcwd() .. "/target/debug/"
+					local executable_path = vim.fn.input("Path to executable: ", default_path, "file")
 					return executable_path
 				end,
-				cwd = "${workspaceFolder}",
-				stopOnEntry = false,
-				args = {},
-				initCommands = function()
-					local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
-					local script_import = 'command script import "'
-						.. rustc_sysroot
-						.. '/lib/rustlib/etc/lldb_lookup.py"'
-					local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
-					local commands = {}
-					local file = io.open(commands_file, "r")
-					if file then
-						for line in file:lines() do
-							table.insert(commands, line)
-						end
-						file:close()
-					end
-					table.insert(commands, 1, script_import)
-					return commands
+				cwd = "${workspaceFolder}", -- Current working directory (optional)
+				stopOnEntry = false, -- Set to true to break at entry point
+				args = function()
+					-- Prompt for arguments
+					local input = vim.fn.input("Program arguments: ")
+					return vim.split(input, " ") -- Split arguments by space
 				end,
+				-- Additional options for the codelldb adapter
+				setupCommands = {
+					{
+						text = "-exec-file",
+						description = "Set up executable",
+						ignoreFailures = false,
+					},
+				},
+				runInTerminal = true, -- Optional: Run in integrated terminal for better input/output handling
 			},
 		}
+
 		vim.keymap.set("n", "<leader>dc", "<cmd>lua require('dap').continue()<CR>")
 		-- Use F5 to start the debugger
 		vim.keymap.set("n", "<F5>", "<cmd>lua require('dap').continue()<CR>")

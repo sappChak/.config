@@ -1,2 +1,1 @@
-return { --[[ "tribela/vim-transparent" ]]
-}
+return { --[[ "tribela/vim-transparent" ]] }

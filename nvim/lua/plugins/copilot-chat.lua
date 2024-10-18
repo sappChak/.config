@@ -61,13 +61,11 @@ I need to refactor the following code to improve its readability, maintainabilit
 
 2. **Naming Conventions**: Use descriptive and consistent naming conventions for variables, functions, and classes. Avoid single-letter names unless they are commonly understood (e.g., `i` for loop indices).
 
-3. **Comments and Documentation**: Add comments and docstrings to explain the purpose of functions, complex logic, and any non-obvious code. Follow standard documentation practices.
+3. **Error Handling**: Implement proper error handling using try-except blocks where appropriate. Ensure the code gracefully handles potential errors and edge cases.
 
-4. **Error Handling**: Implement proper error handling using try-except blocks where appropriate. Ensure the code gracefully handles potential errors and edge cases.
+4. **Performance**: Optimize any inefficient code. Avoid unnecessary computations and redundant operations. Use appropriate data structures for the task.
 
-5. **Performance**: Optimize any inefficient code. Avoid unnecessary computations and redundant operations. Use appropriate data structures for the task.
-
-6. **Readability**: Ensure the code follows PEP 8 (or the relevant style guide) for formatting and indentation. Make sure the code is easy to read and understand.
+5. **Readability**: Ensure the code follows PEP 8 (or the relevant style guide) for formatting and indentation. Make sure the code is easy to read and understand.
 
 Here is the original code:
 ]],

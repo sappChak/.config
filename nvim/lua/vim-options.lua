@@ -47,8 +47,9 @@ vim.g.maplocalleader = " "
 vim.opt.termguicolors = true
 
 -- Set color scheme to vscode
--- Applies the "vscode" color scheme for a consistent look and feel.
+-- Applies the "vscode", "defaultplus", color scheme for a consistent look and feel.
 vim.g.colors_name = "vscode"
+-- vim.g.colors_name = "defaultplus"
 
 -- Disable swap file
 -- Prevents the creation of swap files, which can save disk space and reduce clutter.
@@ -160,6 +161,6 @@ vim.opt.splitright = true
 -- Prevents screen redraws while executing macros, improving performance.
 vim.opt.lazyredraw = true
 
--- Set maximum width of text to 90 characters
+-- Set maximum width of text to 91 characters
 -- Defines the maximum width of text before wrapping, which can improve readability.
-vim.opt.textwidth = 90
+vim.opt.textwidth = 80

@@ -21,8 +21,6 @@ return {
 			-- Override colors (see ./lua/vscode/colors.lua)
 			color_overrides = {
 				-- vscLineNumber = "#FFFFFF",
-				-- vscBlue = "#B79CD0", -- Stands for keywords such as private async
-				-- vscPink = "#18a2fe",
 			},
 
 			-- Override highlight groups (see ./lua/vscode/theme.lua)

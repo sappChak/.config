@@ -26,13 +26,14 @@ return {
 					"markdown_inline",
 					"yaml",
 					"c_sharp",
+					"java",
 				},
 				auto_pairs = {
 					enable = true,
 				},
-				ignore_install = {}, -- List of parsers to ignore installing
+				ignore_install = {},
 
-				auto_install = false,
+				auto_install = true,
 
 				highlight = { enable = true },
 				indent = { enable = true },

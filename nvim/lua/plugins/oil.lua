@@ -19,6 +19,10 @@ return {
 				return name == ".. " or name == ".git"
 			end,
 		},
+		timeout = {
+			create = 500,
+			delete = 500,
+		},
 	},
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 }

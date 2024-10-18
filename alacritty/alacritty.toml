@@ -1,21 +1,22 @@
+# Favorite themes: hyper, smoooooth, terminal_app, vesper, monokai_charcoal,
+# alabaster(light theme)
 import = [
     "~/.config/alacritty/themes/themes/hyper.toml"
 ]
 
 [colors.cursor]
-text = '0x000000'
 cursor = '0xffffff'
 
 [font]
-size = 15
+size = 10
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+# family = "JetBrainsMono Nerd Font"
 # family = "MonoLisa Nerd Font Mono"
-# family = "Hack Nerd Font"
+family = "Hack Nerd Font"
 # family = "FiraCode Nerd Font"
 # family = "Monospace"
-style = "Regular"
+# style = "Regular"
 # style = "Semi-Bold"
 # style = "Medium"
 
@@ -26,6 +27,7 @@ mods = "Control | Shift"
 
 [[keyboard.bindings]]
 key = "F11"
+mods = "Control | Shift"
 action = "ToggleFullscreen"
 
 [[keyboard.bindings]]
@@ -37,7 +39,7 @@ mods = "Control | Shift"
 program = "/usr/bin/zsh"
 
 [window]
-startup_mode = "Fullscreen"
+startup_mode = "Maximized"
 decorations = "none"
 dynamic_title = false
 # opacity = 0.9
