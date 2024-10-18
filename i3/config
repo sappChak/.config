@@ -1,17 +1,17 @@
 # Set keyboard repeat rate
-exec_always --no-startup-id xset r rate 500 33 
+exec_always --no-startup-id xset r rate 400 33 
 
 # Start picom for compositing
 exec --no-startup-id picom --config ~/.config/picom.conf -b
 
 # Remap Caps Lock to Esc and set LShift+Caps Lock to Caps Lock
-exec --no-startup-id ~/.config/i3/remap_caps.sh
+# exec --no-startup-id ~/.config/i3/remap_caps.sh
 
 # Load custom key mappings
-# exec --no-startup-id xmodmap ~/.config/.Xmodmap
+# exec_always xmodmap ~/.config/.Xmodmap
 
 # Set keyboard layout and switch with Ctrl+Shift
-exec --no-startup-id setxkbmap -layout "us,ru,ua" -option "grp:ctrl_shift_toggle"
+# exec --no-startup-id setxkbmap -layout "us,ru,ua" -option "grp:ctrl_shift_toggle"
 
 # Backlight controls
 bindsym XF86MonBrightnessUp exec brightnessctl -c backlight set +5%
