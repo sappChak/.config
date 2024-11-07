@@ -13,7 +13,6 @@ return {
 		},
 		config = function()
 			require("java").setup()
-			local null_ls = require("null-ls")
 			local lspconfig = require("lspconfig")
 			local mason = require("mason")
 			local mason_lspconfig = require("mason-lspconfig")
@@ -22,7 +21,6 @@ return {
 			-- Load custom keymaps
 			require("user.keymaps").map_lsp_keybinds()
 
-			-- Setup neodev before lspconfig
 			neodev.setup()
 
 			-- Setup mason
@@ -30,21 +28,6 @@ return {
 
 			-- Auto install LSP servers
 			mason_lspconfig.setup({ automatic_installation = { exclude = { "gleam" } } })
-
-			lspconfig.matlab_ls.setup({
-				cmd = { "matlab-language-server", "--stdio" },
-				settings = {
-					installPath = "/usr/local/MATLAB/R2024b",
-				},
-				filetypes = { "matlab" },
-				root_dir = function(fname)
-					-- Look for a `.git` folder or a specific MATLAB-related file/folder as the project root
-					local util = require("lspconfig/util")
-					return util.find_git_ancestor(fname)
-						or util.path.dirname(fname) -- Current file directory
-						or vim.loop.os_homedir() -- Fallback to the home directory
-				end,
-			})
 
 			-- Diagnostics filtering for tsserver
 			local function filter_tsserver_diagnostics(_, result, ctx, config)
@@ -64,6 +47,7 @@ return {
 			local servers = {
 				bashls = {},
 				clangd = { cmd = { "clangd", "--offset-encoding=utf-16" } },
+				sqlls = {},
 				jsonls = {},
 				lua_ls = {
 					settings = {
@@ -105,21 +89,38 @@ return {
 						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
+				matlab_ls = {
+					settings = {
+						cmd = { "matlab-language-server", "--stdio" },
+						settings = {
+							installPath = "/usr/local/MATLAB/R2024b",
+						},
+						filetypes = { "matlab" },
+						root_dir = function(fname)
+							-- Look for a `.git` folder or a specific MATLAB-related file/folder as the project root
+							local util = require("lspconfig/util")
+							return util.find_git_ancestor(fname)
+								or util.path.dirname(fname) -- Current file directory
+								or vim.loop.os_homedir() -- Fallback to the home directory
+						end,
+					},
+				},
+				pyright = {},
 				jdtls = {},
 				rust_analyzer = {
 					settings = {
 						["rust-analyzer"] = {
 							procMacro = { enable = true },
 							cargo = { allFeatures = true },
-							imports = { group = { enable = false } },
+							imports = { group = { enable = true } },
 							completion = { postfix = { enable = false } },
+							checkOnSave = { command = "clippy" },
 						},
 					},
 				},
 				dockerls = {},
 				docker_compose_language_service = { filetypes = { "yaml.docker-compose" } },
 			}
-
 			-- LSP handlers configuration
 			local default_handlers = {
 				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
@@ -139,44 +140,36 @@ return {
 			local function on_attach(_, buffer_number)
 				-- Map LSP keybinds
 				require("user.keymaps").map_lsp_keybinds(buffer_number)
-
-				-- Create `:Format` command for formatting the current buffer
-				vim.api.nvim_buf_create_user_command(buffer_number, "Format", function()
-					vim.lsp.buf.format({
-						filter = function(client)
-							return client.name ~= "ts_ls" or not null_ls.is_registered("prettier")
-						end,
-					})
-				end, { desc = "LSP: Format current buffer with LSP" })
+				vim.api.nvim_create_user_command("Format", function(args)
+					local range = nil
+					if args.count ~= -1 then
+						local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+						range = {
+							start = { args.line1, 0 },
+							["end"] = { args.line2, end_line:len() },
+						}
+					end
+					require("conform").format({ async = true, lsp_format = "fallback", range = range })
+				end, { range = true })
 			end
 
 			-- Setup LSP servers
 			local function setup_servers()
 				for name, config in pairs(servers) do
 					lspconfig[name].setup({
+						autostart = config.autostart,
+						cmd = config.cmd,
 						capabilities = capabilities,
 						filetypes = config.filetypes,
 						handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
 						on_attach = on_attach,
 						settings = config.settings,
+						root_dir = config.root_dir,
 					})
 				end
 			end
 
 			setup_servers()
-
-			-- require("lspconfig").jdtls.setup({})
-
-			-- Configure null-ls for linting, formatting, diagnostics, and code actions
-			null_ls.setup({
-				border = "rounded",
-				sources = {
-					null_ls.builtins.formatting.prettier,
-					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.clang_format,
-					null_ls.builtins.formatting.csharpier,
-				},
-			})
 
 			-- Diagnostic UI configuration
 			vim.diagnostic.config({ float = { border = "rounded" } })
@@ -184,5 +177,22 @@ return {
 			-- Set default border for LSP windows
 			require("lspconfig.ui.windows").default_options.border = "rounded"
 		end,
+	},
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			notify_on_error = false,
+			formatters_by_ft = {
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+				lua = { "stylua" },
+				python = { "black" },
+				cpp = { "clang_format" },
+				csharp = { "csharpier" },
+				sh = { "shfmt" },
+				sql = { "sqlfmt" },
+			},
+		},
 	},
 }
