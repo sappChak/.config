@@ -1,11 +1,5 @@
-# Set keyboard repeat rate
-exec_always --no-startup-id xset r rate 400 33 
-
 # Start picom for compositing
 exec --no-startup-id picom --config ~/.config/picom.conf -b
-
-# Remap Caps Lock to Esc and set LShift+Caps Lock to Caps Lock
-# exec --no-startup-id ~/.config/i3/remap_caps.sh
 
 # Load custom key mappings
 # exec_always xmodmap ~/.config/.Xmodmap
@@ -59,6 +53,9 @@ exec --no-startup-id nm-applet
 
 # Floating window modifier
 floating_modifier $mod
+
+# Set keyboard repeat rate
+exec_always --no-startup-id (sleep 5 && xset r rate 200 33)&
 
 # Start terminal
 bindsym $mod+Return exec alacritty 
@@ -157,10 +154,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Resize window mode
 mode "resize" {
-    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym l resize shrink width 10 px or 10 ppt
     bindsym j resize grow height 10 px or 10 ppt
     bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
+    bindsym h resize grow width 10 px or 10 ppt
 
     # Same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
