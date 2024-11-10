@@ -1,9 +1,23 @@
 return {
-	-- "lukas-reineke/indent-blankline.nvim",
-	-- main = "ibl",
-	-- ---@module "ibl"
-	-- ---@type ibl.config
-	-- opts = {
-	-- 	show_current_context = false,
-	-- },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = "BufEnter",
+		opts = {
+			indent = {
+				char = "│",
+				tab_char = "│",
+			},
+			scope = { enabled = false },
+			exclude = {
+				filetypes = {
+					"help",
+					"lazy",
+					"mason",
+					"notify",
+					"oil",
+				},
+			},
+		},
+		main = "ibl",
+	},
 }

@@ -29,6 +29,21 @@ return {
 			-- Auto install LSP servers
 			mason_lspconfig.setup({ automatic_installation = { exclude = { "gleam" } } })
 
+			lspconfig.matlab_ls.setup({
+				cmd = { "matlab-language-server", "--stdio" },
+				settings = {
+					installPath = "/usr/local/MATLAB/R2024b",
+				},
+				filetypes = { "matlab" },
+				root_dir = function(fname)
+					-- Look for a `.git` folder or a specific MATLAB-related file/folder as the project root
+					local util = require("lspconfig/util")
+					return util.find_git_ancestor(fname)
+						or util.path.dirname(fname) -- Current file directory
+						or vim.loop.os_homedir() -- Fallback to the home directory
+				end,
+			})
+
 			-- Diagnostics filtering for tsserver
 			local function filter_tsserver_diagnostics(_, result, ctx, config)
 				local ignored_messages = {
@@ -89,22 +104,22 @@ return {
 						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
-				matlab_ls = {
-					settings = {
-						cmd = { "matlab-language-server", "--stdio" },
-						settings = {
-							installPath = "/usr/local/MATLAB/R2024b",
-						},
-						filetypes = { "matlab" },
-						root_dir = function(fname)
-							-- Look for a `.git` folder or a specific MATLAB-related file/folder as the project root
-							local util = require("lspconfig/util")
-							return util.find_git_ancestor(fname)
-								or util.path.dirname(fname) -- Current file directory
-								or vim.loop.os_homedir() -- Fallback to the home directory
-						end,
-					},
-				},
+				-- matlab_ls = {
+				-- 	settings = {
+				-- 		cmd = { "matlab-language-server", "--stdio" },
+				-- 		settings = {
+				-- 			installPath = "/usr/local/MATLAB/R2024b",
+				-- 		},
+				-- 		-- filetypes = { "matlab" },
+				-- 		-- root_dir = function(fname)
+				-- 		-- 	-- Look for a `.git` folder or a specific MATLAB-related file/folder as the project root
+				-- 		-- 	local util = require("lspconfig/util")
+				-- 		-- 	return util.find_git_ancestor(fname)
+				-- 		-- 		or util.path.dirname(fname) -- Current file directory
+				-- 		-- 		or vim.loop.os_homedir() -- Fallback to the home directory
+				-- 		-- end,
+				-- 	},
+				-- },
 				pyright = {},
 				jdtls = {},
 				rust_analyzer = {

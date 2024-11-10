@@ -6,7 +6,7 @@ return {
     local subscribe = require("el.subscribe")
     local sections = require("el.sections")
 
-    vim.opt.laststatus = 3
+    -- vim.opt.laststatus = 3
 
     require("el").setup({
       generator = function()

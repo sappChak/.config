@@ -1,3 +1,6 @@
 return {
-	"ThePrimeagen/harpoon",
+	{
+		"ThePrimeagen/harpoon",
+		lazy = true,
+	},
 }

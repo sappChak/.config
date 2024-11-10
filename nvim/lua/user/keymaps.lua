@@ -6,6 +6,7 @@ local xnoremap = require("user.keymap_utils").xnoremap
 local utils = require("user.utils")
 local harpoon_ui = require("harpoon.ui")
 local harpoon_mark = require("harpoon.mark")
+-- local conform = require("conform")
 
 local M = {}
 
@@ -169,7 +170,7 @@ nnoremap("<leader>cc", ":cclose<cr>zz")
 -- Resize split windows to be equal size
 nnoremap("<leader>=", "<C-w>=")
 
--- Press leader f to format
+-- Press leader fm to format
 nnoremap("<leader>fm", ":Format<cr>")
 
 -- Press leader rw to rotate open windows
@@ -311,7 +312,8 @@ M.map_lsp_keybinds = function(buffer_number)
 
 	-- See `:help K` for why this keymap
 	nnoremap("K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation", buffer = buffer_number })
-	nnoremap("<leader>k", vim.lsp.buf.signature_help, { desc = "LSP: Signature Documentation", buffer = buffer_number })
+	nnoremap("<leader>k", vim.lsp.buf.signature_help,
+		{ desc = "LSP: Signature Documentation", buffer = buffer_number })
 	inoremap("<C-k>", vim.lsp.buf.signature_help, { desc = "LSP: Signature Documentation", buffer = buffer_number })
 
 	-- Lesser used LSP functionality

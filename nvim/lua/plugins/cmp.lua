@@ -4,7 +4,6 @@ return {
 		"hrsh7th/nvim-cmp",
 		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
-			"zbirenbaum/copilot.lua",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -87,7 +86,7 @@ return {
 					}),
 				},
 				experimental = {
-					ghost_text = false,
+					ghost_text = true,
 				},
 			})
 		end,

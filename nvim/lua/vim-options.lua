@@ -47,7 +47,7 @@ vim.g.maplocalleader = " "
 vim.opt.termguicolors = true
 
 -- Set color scheme to vscode
--- Applies the "vscode", "defaultplus", color scheme for a consistent look and feel.
+-- Applies the "vscode", "defaultplus", "yellowbeans" color scheme for a consistent look and feel.
 vim.g.colors_name = "vscode"
 -- vim.g.colors_name = "defaultplus"
 

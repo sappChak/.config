@@ -1,4 +1,5 @@
 # Favorite themes: hyper, smoooooth, terminal_app, vesper, monokai_charcoal,
+# alabaster_dark, nightfly, dracula_plus
 # alabaster(light theme)
 import = [
     "~/.config/alacritty/themes/themes/hyper.toml"
