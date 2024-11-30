@@ -7,7 +7,6 @@ return {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
-			"nvimtools/none-ls.nvim",
 			"folke/neodev.nvim",
 			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
@@ -62,8 +61,10 @@ return {
 			local servers = {
 				bashls = {},
 				clangd = { cmd = { "clangd", "--offset-encoding=utf-16" } },
+				html = {},
 				sqlls = {},
 				jsonls = {},
+				volar = {},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -73,6 +74,16 @@ return {
 					},
 				},
 				ts_ls = {
+					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+					init_options = {
+						plugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = "/home/sappchak/.nvm/versions/node/v22.5.1/lib/node_modules/@vue/typescript-plugin",
+								languages = { "javascript", "typescript", "vue" },
+							},
+						},
+					},
 					settings = {
 						maxTsServerMemory = 12288,
 						typescript = {
@@ -104,22 +115,6 @@ return {
 						["textDocument/publishDiagnostics"] = vim.lsp.with(filter_tsserver_diagnostics, {}),
 					},
 				},
-				-- matlab_ls = {
-				-- 	settings = {
-				-- 		cmd = { "matlab-language-server", "--stdio" },
-				-- 		settings = {
-				-- 			installPath = "/usr/local/MATLAB/R2024b",
-				-- 		},
-				-- 		-- filetypes = { "matlab" },
-				-- 		-- root_dir = function(fname)
-				-- 		-- 	-- Look for a `.git` folder or a specific MATLAB-related file/folder as the project root
-				-- 		-- 	local util = require("lspconfig/util")
-				-- 		-- 	return util.find_git_ancestor(fname)
-				-- 		-- 		or util.path.dirname(fname) -- Current file directory
-				-- 		-- 		or vim.loop.os_homedir() -- Fallback to the home directory
-				-- 		-- end,
-				-- 	},
-				-- },
 				pyright = {},
 				jdtls = {},
 				rust_analyzer = {
@@ -176,6 +171,7 @@ return {
 						cmd = config.cmd,
 						capabilities = capabilities,
 						filetypes = config.filetypes,
+						init_options = config.init_options,
 						handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
 						on_attach = on_attach,
 						settings = config.settings,
@@ -200,13 +196,13 @@ return {
 			formatters_by_ft = {
 				javascript = { "prettier" },
 				typescript = { "prettier" },
-				typescriptreact = { "prettier" },
 				lua = { "stylua" },
 				python = { "black" },
 				cpp = { "clang_format" },
 				csharp = { "csharpier" },
 				sh = { "shfmt" },
 				sql = { "sqlfmt" },
+				markdown = { "prettier" },
 			},
 		},
 	},
