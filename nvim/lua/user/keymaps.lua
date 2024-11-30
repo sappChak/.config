@@ -329,6 +329,13 @@ nnoremap("<leader>oc", function()
 	require("copilot.panel").open({})
 end, { desc = "[O]pen [C]opilot panel" })
 
+-- Open Copilot chat
+nnoremap("<leader>cc", ":CopilotChat<cr>", { desc = "[C]opilot [C]hat" });
+
+-- Commit staged
+nnoremap("<leader>ccs", ":CopilotChatCommit<cr>", { desc = "[C]opilot [C]ommit [S]taged" })
+
+
 -- -- nvim-ufo keybinds
 -- nnoremap("zR", require("ufo").openAllFolds)
 -- nnoremap("zM", require("ufo").closeAllFolds)
