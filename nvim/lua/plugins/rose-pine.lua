@@ -68,9 +68,6 @@ return {
 				-- end
 			end,
 		})
-		-- vim.cmd("colorscheme rose-pine-main")
-		-- vim.cmd("colorscheme rose-pine-moon")
-		-- vim.cmd("colorscheme rose-pine-dawn")
 		if vim.g.colors_name == "rose-pine" then
 			vim.cmd("colorscheme rose-pine")
 		end

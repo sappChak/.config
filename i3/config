@@ -1,6 +1,7 @@
 # Start picom for compositing
 exec --no-startup-id picom --config ~/.config/picom.conf -b
 
+# exec --no-startup-id /usr/libexec/gsd-xsettings
 # Load custom key mappings
 # exec_always xmodmap ~/.config/.Xmodmap
 
@@ -58,7 +59,7 @@ floating_modifier $mod
 exec_always --no-startup-id (sleep 5 && xset r rate 200 33)&
 
 # Start terminal
-bindsym $mod+Return exec alacritty 
+bindsym $mod+Return exec kitty 
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -154,10 +155,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Resize window mode
 mode "resize" {
-    bindsym l resize shrink width 10 px or 10 ppt
+    bindsym l resize shrink width 5 px or 5 ppt
     bindsym j resize grow height 10 px or 10 ppt
     bindsym k resize shrink height 10 px or 10 ppt
-    bindsym h resize grow width 10 px or 10 ppt
+    bindsym h resize grow width 5 px or 5 ppt
 
     # Same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt

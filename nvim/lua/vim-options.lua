@@ -48,7 +48,7 @@ vim.opt.termguicolors = true
 
 -- Set color scheme to vscode
 -- Applies the "vscode", "defaultplus", "yellowbeans" color scheme for a consistent look and feel.
-vim.g.colors_name = "vscode"
+vim.g.colors_name = "gruber-darker"
 -- vim.g.colors_name = "defaultplus"
 
 -- Disable swap file
@@ -137,6 +137,16 @@ vim.opt.signcolumn = "yes"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- more useful diffs (nvim -d)
+-- by ignoring whitespace
+-- vim.opt.diffopt:append('iwhite')
+-- and using a smarter algorithm
+-- https://vimways.org/2018/the-power-of-diff/
+-- https://stackoverflow.com/questions/32365271/whats-the-difference-between-git-diff-patience-and-git-diff-histogram
+-- https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
+-- vim.opt.diffopt:append('algorithm:histogram')
+-- vim.opt.diffopt:append('indent-heuristic')
+
 -- Keep signcolumn on by default
 -- Ensures that the sign column is always visible, preventing the screen from shifting.
 vim.wo.signcolumn = "yes"
@@ -161,6 +171,5 @@ vim.opt.splitright = true
 -- Prevents screen redraws while executing macros, improving performance.
 vim.opt.lazyredraw = true
 
--- Set maximum width of text to 91 characters
 -- Defines the maximum width of text before wrapping, which can improve readability.
-vim.opt.textwidth = 80
+vim.opt.textwidth = 90

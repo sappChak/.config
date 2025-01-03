@@ -324,11 +324,6 @@ end
 -- Symbol Outline keybind
 nnoremap("<leader>so", ":SymbolsOutline<cr>")
 
--- Open Copilot panel
-nnoremap("<leader>oc", function()
-	require("copilot.panel").open({})
-end, { desc = "[O]pen [C]opilot panel" })
-
 -- Open Copilot chat
 nnoremap("<leader>cc", ":CopilotChat<cr>", { desc = "[C]opilot [C]hat" });
 

@@ -2,7 +2,7 @@
 # alabaster_dark, nightfly, dracula_plus
 # alabaster(light theme)
 import = [
-    "~/.config/alacritty/themes/themes/hyper.toml"
+    "~/.config/alacritty/themes/themes/rose-pine.toml"
 ]
 
 [colors.cursor]
@@ -12,9 +12,8 @@ cursor = '0xffffff'
 size = 10
 
 [font.normal]
-# family = "JetBrainsMono Nerd Font"
-# family = "MonoLisa Nerd Font Mono"
-family = "Hack Nerd Font"
+family = "JetBrainsMono Nerd Font"
+# family = "Hack Nerd Font"
 # family = "FiraCode Nerd Font"
 # family = "Monospace"
 # style = "Regular"

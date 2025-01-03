@@ -6,7 +6,7 @@ return {
 			undercurl = true, -- enable undercurls
 			commentStyle = { italic = true },
 			functionStyle = {},
-			keywordStyle = { italic = false },
+			keywordStyle = { italic = true },
 			statementStyle = { bold = true },
 			typeStyle = {},
 			transparent = true, -- do not set background color

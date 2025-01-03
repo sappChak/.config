@@ -11,7 +11,7 @@ return {
 			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
 		config = function()
-			require("java").setup()
+			-- require("java").setup()
 			local lspconfig = require("lspconfig")
 			local mason = require("mason")
 			local mason_lspconfig = require("mason-lspconfig")
@@ -120,17 +120,26 @@ return {
 				rust_analyzer = {
 					settings = {
 						["rust-analyzer"] = {
-							procMacro = { enable = true },
-							cargo = { allFeatures = true },
-							imports = { group = { enable = true } },
-							completion = { postfix = { enable = false } },
-							checkOnSave = { command = "clippy" },
+							cargo = {
+								allFeatures = true,
+							},
+							imports = {
+								group = {
+									enable = true,
+								},
+							},
+							completion = {
+								postfix = {
+									enable = false,
+								},
+							},
 						},
 					},
 				},
 				dockerls = {},
 				docker_compose_language_service = { filetypes = { "yaml.docker-compose" } },
 			}
+
 			-- LSP handlers configuration
 			local default_handlers = {
 				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
@@ -193,12 +202,18 @@ return {
 		"stevearc/conform.nvim",
 		opts = {
 			notify_on_error = false,
+			default_format_opts = {
+				async = true,
+				timeout_ms = 500,
+				lsp_format = "fallback",
+			},
 			formatters_by_ft = {
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				lua = { "stylua" },
 				python = { "black" },
 				cpp = { "clang_format" },
+				c = { "clang_format" },
 				csharp = { "csharpier" },
 				sh = { "shfmt" },
 				sql = { "sqlfmt" },
