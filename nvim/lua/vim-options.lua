@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 
 -- Enable cursor line
 -- Highlights the line where the cursor is located, making it easier to track the cursor's position.
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- Set encoding to UTF-8
 -- Ensures that files are read and written using UTF-8 encoding.
@@ -47,9 +47,7 @@ vim.g.maplocalleader = " "
 vim.opt.termguicolors = true
 
 -- Set color scheme to vscode
--- Applies the "vscode", "defaultplus", "yellowbeans" color scheme for a consistent look and feel.
 vim.g.colors_name = "gruber-darker"
--- vim.g.colors_name = "defaultplus"
 
 -- Disable swap file
 -- Prevents the creation of swap files, which can save disk space and reduce clutter.

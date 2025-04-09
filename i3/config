@@ -1,12 +1,9 @@
 # Start picom for compositing
 exec --no-startup-id picom --config ~/.config/picom.conf -b
+exec --no-startup-id export GTK_THEME=Yaru-dark
 
-# exec --no-startup-id /usr/libexec/gsd-xsettings
-# Load custom key mappings
-# exec_always xmodmap ~/.config/.Xmodmap
-
-# Set keyboard layout and switch with Ctrl+Shift
-# exec --no-startup-id setxkbmap -layout "us,ru,ua" -option "grp:ctrl_shift_toggle"
+# exec --no-startup-id ghostty --gtk-single-instance=true --quit-after-last-window-closed=false --initial-window=false
+# set $terminal ghostty --gtk-single-instance=true
 
 # Backlight controls
 bindsym XF86MonBrightnessUp exec brightnessctl -c backlight set +5%
@@ -56,10 +53,10 @@ exec --no-startup-id nm-applet
 floating_modifier $mod
 
 # Set keyboard repeat rate
-exec_always --no-startup-id (sleep 5 && xset r rate 200 33)&
+exec_always --no-startup-id (sleep 5 && xset r rate 200 40)&
 
-# Start terminal
-bindsym $mod+Return exec kitty 
+# Start the main terminal
+bindsym $mod+Return exec alacritty 
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -177,6 +174,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar
 bar {
     status_command i3status
+    position bottom 
 }
 
 # Restore wallpaper

@@ -20,13 +20,30 @@ return {
 
 			-- Override colors (see ./lua/vscode/colors.lua)
 			color_overrides = {
-				-- vscLineNumber = "#FFFFFF",
-				-- vscBlue = "#FFFFFF",
-				-- vscAccentBlue = "#FFFFFF",
+				-- Use the official Dark+ values:
+				vscBackground = "#1e1e1e", -- Editor background
+				vscForeground = "#d4d4d4", -- Editor foreground
+				vscSelection = "#264f78", -- Selection background
+				-- vscLineNumber = "#858585", -- Line numbers
+				vscCursor = "#aeafad", -- Cursor color
+				-- Accent colors (adjust these if you prefer different hues)
+				vscAccentBlue = "#569cd6",
+				vscAccentGreen = "#6a9955",
+				vscAccentRed = "#f44747",
+				vscAccentYellow = "#d7ba7d",
+				vscAccentPurple = "#c586c0",
+				vscAccentCyan = "#4ec9b0",
 			},
-			-- Override highlight groups (see ./lua/vscode/theme.lua)
+			-- Additionally, override specific highlight groups so that functions,
+			-- keywords, strings, etc. have exactly the same colors as in VSCode.
 			group_overrides = {
-				Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+				Cursor = { fg = "#1e1e1e", bg = "#aeafad", bold = true },
+				Comment = { fg = "#6a9955", italic = true },
+				Keyword = { fg = "#569cd6" },
+				String = { fg = "#ce9178" },
+				Function = { fg = "#dcdcaa" },
+				Identifier = { fg = "#9cdcfe" },
+				-- (Add or adjust more groups as needed.)
 			},
 		})
 		if vim.g.colors_name == "vscode" then

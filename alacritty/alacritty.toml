@@ -2,7 +2,7 @@
 # alabaster_dark, nightfly, dracula_plus
 # alabaster(light theme)
 import = [
-    "~/.config/alacritty/themes/themes/rose-pine.toml"
+    "~/.config/alacritty/themes/themes/gruber_darker.toml"
 ]
 
 [colors.cursor]
@@ -17,7 +17,7 @@ family = "JetBrainsMono Nerd Font"
 # family = "FiraCode Nerd Font"
 # family = "Monospace"
 # style = "Regular"
-# style = "Semi-Bold"
+# style = "Bold"
 # style = "Medium"
 
 [[keyboard.bindings]]
@@ -40,12 +40,12 @@ program = "/usr/bin/zsh"
 
 [window]
 startup_mode = "Maximized"
-decorations = "none"
-dynamic_title = false
+decorations = "Full"
+dynamic_title = true 
 # opacity = 0.9
 
-# [env]
-# TERM = "xterm-256color"
+[env]
+TERM = "xterm-256color"
 
 [debug]
 log_level = "off"

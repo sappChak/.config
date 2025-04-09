@@ -65,13 +65,6 @@ end
 
 vim.api.nvim_create_user_command("LiveGrepGitRoot", live_grep_git_root, {})
 
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-	group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
-	callback = function()
-		vim.diagnostic.open_float(nil, { focus = false })
-	end,
-})
-
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -90,3 +83,18 @@ local function set_filetype(pattern, filetype)
 end
 
 set_filetype({ "docker-compose.yml" }, "yaml.docker-compose")
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+	pattern = "*",
+	callback = function(ev)
+		if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line("$") then
+			-- except for in git commit messages
+			-- https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
+			if not vim.fn.expand("%:p"):find(".git", 1, true) then
+				vim.cmd('exe "normal! g\'\\""')
+			end
+		end
+	end,
+})
+
+vim.cmd("filetype plugin indent on")

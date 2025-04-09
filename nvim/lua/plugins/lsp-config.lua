@@ -28,7 +28,7 @@ return {
 			for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
 				local default_diagnostic_handler = vim.lsp.handlers[method]
 				vim.lsp.handlers[method] = function(err, result, context, config)
-					if err ~= nil and err.code == -32802 then
+					if err ~= nil and (err.code == -32802 or err.code == -32603) then
 						return
 					end
 					return default_diagnostic_handler(err, result, context, config)
@@ -55,6 +55,7 @@ return {
 				clangd = { cmd = { "clangd", "--offset-encoding=utf-16" } },
 				html = {},
 				sqlls = {},
+				texlab = {},
 				jsonls = {},
 				volar = {},
 				lua_ls = {
@@ -144,7 +145,7 @@ return {
 				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
 				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 				["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-					virtual_text = true,
+					virtual_text = false,
 					signs = true,
 					underline = false,
 				}),

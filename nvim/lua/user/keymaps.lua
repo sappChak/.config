@@ -10,58 +10,17 @@ local harpoon_mark = require("harpoon.mark")
 
 local M = {}
 
-local TERM = os.getenv("TERM")
+-- local TERM = os.getenv("TERM")
 
 -- Normal --
 -- Disable Space bar since it'll be used as the leader key
 nnoremap("<space>", "<nop>")
 
--- Window +  better kitty navigation
-nnoremap("<C-j>", function()
-	if vim.fn.exists(":KittyNavigateDown") ~= 0 and TERM == "xterm-kitty" then
-		vim.cmd.KittyNavigateDown()
-	elseif vim.fn.exists(":NvimTmuxNavigateDown") ~= 0 then
-		vim.cmd.NvimTmuxNavigateDown()
-	else
-		vim.cmd.wincmd("j")
-	end
-end)
-
-nnoremap("<C-k>", function()
-	if vim.fn.exists(":KittyNavigateUp") ~= 0 and TERM == "xterm-kitty" then
-		vim.cmd.KittyNavigateUp()
-	elseif vim.fn.exists(":NvimTmuxNavigateUp") ~= 0 then
-		vim.cmd.NvimTmuxNavigateUp()
-	else
-		vim.cmd.wincmd("k")
-	end
-end)
-
-nnoremap("<C-l>", function()
-	if vim.fn.exists(":KittyNavigateRight") ~= 0 and TERM == "xterm-kitty" then
-		vim.cmd.KittyNavigateRight()
-	elseif vim.fn.exists(":NvimTmuxNavigateRight") ~= 0 then
-		vim.cmd.NvimTmuxNavigateRight()
-	else
-		vim.cmd.wincmd("l")
-	end
-end)
-
-nnoremap("<C-h>", function()
-	if vim.fn.exists(":KittyNavigateLeft") ~= 0 and TERM == "xterm-kitty" then
-		vim.cmd.KittyNavigateLeft()
-	elseif vim.fn.exists(":NvimTmuxNavigateLeft") ~= 0 then
-		vim.cmd.NvimTmuxNavigateLeft()
-	else
-		vim.cmd.wincmd("h")
-	end
-end)
-
 -- Swap between last two buffers
 nnoremap("<leader>'", "<C-^>", { desc = "Switch to last buffer" })
 
 -- Save with leader key
-nnoremap("<leader>w", "<cmd>w<cr>", { silent = false })
+nnoremap("<leader>w", "<cmd>w<cr>")
 
 -- Quit with leader key
 nnoremap("<leader>q", "<cmd>q<cr>", { silent = false })
@@ -145,6 +104,9 @@ nnoremap("[w", function()
 	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
+
+-- Open pop-up diagnostic window
+nnoremap("<leader>d", vim.diagnostic.open_float)
 
 -- Clear diagnostics for the current buffer
 nnoremap("<leader>cd", ":lua vim.diagnostic.reset()<CR>", { noremap = true, silent = true })
@@ -292,12 +254,6 @@ M.map_lsp_keybinds = function(buffer_number)
 		{ desc = "LSP: [G]oto [R]eferences", buffer = buffer_number }
 	)
 
-	-- nnoremap(
-	-- 	"gi",
-	-- 	require("telescope.builtin").lsp_implementations,
-	-- 	{ desc = "LSP: [G]oto [I]mplementation", buffer = buffer_number }
-	-- )
-
 	nnoremap(
 		"<leader>bs",
 		require("telescope.builtin").lsp_document_symbols,
@@ -312,8 +268,7 @@ M.map_lsp_keybinds = function(buffer_number)
 
 	-- See `:help K` for why this keymap
 	nnoremap("K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation", buffer = buffer_number })
-	nnoremap("<leader>k", vim.lsp.buf.signature_help,
-		{ desc = "LSP: Signature Documentation", buffer = buffer_number })
+	nnoremap("<leader>k", vim.lsp.buf.signature_help, { desc = "LSP: Signature Documentation", buffer = buffer_number })
 	inoremap("<C-k>", vim.lsp.buf.signature_help, { desc = "LSP: Signature Documentation", buffer = buffer_number })
 
 	-- Lesser used LSP functionality
@@ -325,16 +280,10 @@ end
 nnoremap("<leader>so", ":SymbolsOutline<cr>")
 
 -- Open Copilot chat
-nnoremap("<leader>cc", ":CopilotChat<cr>", { desc = "[C]opilot [C]hat" });
+nnoremap("<leader>cc", ":CopilotChat<cr>", { desc = "[C]opilot [C]hat" })
 
 -- Commit staged
 nnoremap("<leader>ccs", ":CopilotChatCommit<cr>", { desc = "[C]opilot [C]ommit [S]taged" })
-
-
--- -- nvim-ufo keybinds
--- nnoremap("zR", require("ufo").openAllFolds)
--- nnoremap("zM", require("ufo").closeAllFolds)
---
 
 -- Visual --
 -- Disable Space bar since it'll be used as the leader key
@@ -381,9 +330,6 @@ nnoremap("<leader>on", ":ObsidianNew<CR>", { desc = "Open new note" })
 nnoremap("<leader>oc", ":ObsidianClose<CR>", { desc = "Close Obsidian" })
 nnoremap("<leader>op", ":ObsidianPasteImage<CR>", { desc = "Paste image from clipboard" })
 nnoremap("<leader>ot", ":ObsidianTemplate<CR>", { desc = "Insert template" })
-
--- Neotree
-nnoremap("<leader>e", ":Neotree toggle<CR>", { desc = "Toggle [N]eoTree", silent = true })
 
 -- Oil
 nnoremap("-", ":Oil --float<CR>", { desc = "Open [O]il" })
