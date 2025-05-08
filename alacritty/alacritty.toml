@@ -1,0 +1,56 @@
+# Favorite themes: hyper, smoooooth, terminal_app, vesper, monokai_charcoal,
+# alabaster_dark, nightfly, dracula_plus
+# alabaster(light theme)
+import = [
+    "~/.config/alacritty/themes/themes/gruber_darker.toml"
+]
+
+[colors.cursor]
+cursor = '0xffffff'
+
+[font]
+size = 10
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[[keyboard.bindings]]
+chars = "\u0003"
+key = "C"
+mods = "Control | Shift"
+
+[[keyboard.bindings]]
+key = "F11"
+mods = "Control | Shift"
+action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = "F5"
+mods = "Shift"
+action = "ResetFontSize"
+
+[[keyboard.bindings]]
+chars = "\u0016"
+key = "V"
+mods = "Control | Shift"
+
+[shell]
+program = "/usr/bin/zsh"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+bright_foreground = '#ffffff'
+
+[window]
+startup_mode = "Maximized"
+decorations = "Full"
+dynamic_title = true 
+
+[env]
+TERM = "xterm-256color"
+
+[debug]
+log_level = "off"
