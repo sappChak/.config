@@ -19,22 +19,22 @@ font pango:JetBrainsMono Nerd Font 9
 bindsym $mod+q kill
 bindsym $mod+Shift+W exec firefox
 
-# Volume up
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 5%+
+# Mute/unmute
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 # Volume down
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 5%-
-# Mute/Unmute
-bindsym XF86AudioMute exec --no-startup-id amixer -q sset Master toggle
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+# Volume up
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 
 # Screenshots
-bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
-bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
-bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
+bindsym Ctrl+Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
 
 # Clipboard Screenshots
-bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
-bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
-bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+bindsym Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 
 # Start XDG autostart .desktop files using dex
 exec --no-startup-id dex --autostart --environment i3
@@ -52,7 +52,7 @@ floating_modifier $mod
 exec_always --no-startup-id (sleep 5 && xset r rate 200 40)&
 
 # Start the main terminal
-bindsym $mod+Return exec kitty 
+bindsym $mod+Return exec alacritty 
 
 # Kill focused window
 bindsym $mod+Shift+q kill
